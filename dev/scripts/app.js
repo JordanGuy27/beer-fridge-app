@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Event from './eventPost'
 
+
 class App extends React.Component {
     constructor() {
       super();
@@ -13,6 +14,9 @@ class App extends React.Component {
       this.addEvent = this.addEvent.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.showSidebar = this.showSidebar.bind(this);
+      this.addBeer = this.addBeer.bind(this);
+      this.removeBeer = this.removeBeer.bind(this);
+      this.closeEvent = this.closeEvent.bind(this);
     }
     componentDidMount() {
       // Initialize Firebase
@@ -53,38 +57,49 @@ class App extends React.Component {
       })    
     }
     addBeer() {
-      
+      console.log('works');
+    }
+    removeBeer() {
+      console.log('works');
+    }
+    closeEvent() {
+      console.log('works');
     }
     render() {
       return (
         <div>
           <header>
-            <h1>Who needs a Beer?</h1>
-            <h3>Keep track of your cold ones</h3>
-            <nav>
-             <a href="#" onClick={this.showSidebar}>Add Event!</a>
-            </nav>
+            <div className="wrapper">
+                <h1>Beer Tracker</h1>
+                <h3>Keep track of your cold ones</h3>
+                <nav>
+                <button href="#" onClick={this.showSidebar}>Add Event!</button>
+                </nav>
+            </div>
           </header>
-          <aside className="sidebar">
-            <form onSubmit={this.addEvent} className="eventForm">
-              <h3>Add New Event</h3>
-              <div className="exitBtn">
-                {/* input an image for closing window */}
-              </div>
-              <label htmlFor="event" >Enter Event:</label>
-              <input type="text" value={this.state.event} id="event" onChange={this.handleChange} />
-              <label htmlFor="beer">How many beers are available?</label>
-              <input type="text" value={this.state.beer} id="beer" onChange={this.handleChange} />
-              <input type="submit" value="submit" />
-            </form>
-          </aside>
-          <section className="eventNotes">
-            {this.state.events.map((event, i) => {
-              return (
-                <Event data={event} key={i}/>
-              )
-            })}
-          </section>
+            <div className="wrapper">
+              <aside className="sidebar">
+                <form onSubmit={this.addEvent} className="eventForm">
+                  <h3>Add New Event</h3>
+                  <div className="exitBtn">
+                    {/* input an image for closing window */}
+                  </div>
+                  <label htmlFor="event" >Enter Event:</label>
+                  <input type="text" value={this.state.event} id="event" onChange={this.handleChange} />
+                  <label htmlFor="beer">How many beers are available?</label>
+                  <input type="text" value={this.state.beer} id="beer" onChange={this.handleChange} />
+                  <input type="submit" value="submit" class="submit"/>
+                </form>
+              </aside>
+              <section className="eventNotes">
+                {this.state.events.map((event, i) => {
+                  return (
+                    <Event data={event} key={i} removeBeer = {this.removeBeer}
+                    closeEvent={this.closeEvent} addBeer={this.addBeer}/>
+                  )
+                })}
+              </section>
+          </div>
         </div>
       )
     }

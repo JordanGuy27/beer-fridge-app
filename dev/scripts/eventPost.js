@@ -7,9 +7,9 @@ const Event = (props) => {
             <p>
                 There are currently {props.data.beer} beers left at this event
             </p>
-            <button className="addBeer">Add Beer</button>
-            <button className="drinkBeer">Drink Beer</button>
-            <button className="leaveEvent">Leave Event</button>
+            <button className="addBeer" onClick={props.addBeer}>Add Beer</button>
+            <button className="drinkBeer" onClick={props.removeBeer}>Drink Beer</button>
+            <button className="leaveEvent" onClick={props.closeEvent}>Leave Event</button>
         </div>
     )
 }
