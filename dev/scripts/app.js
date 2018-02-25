@@ -29,6 +29,24 @@ class App extends React.Component {
         messagingSenderId: "488699414285"
       };
       firebase.initializeApp(config);
+      
+      const dbRef = firebase.database().ref();
+
+      dbRef.on('value', (snapshot) => {
+        const eventsData = snapshot.val();
+        const eventsArray = [];
+
+        for( let event in eventsData) {
+          eventsData[event].key = event;
+          eventsArray.push(eventsData[event]);
+        }
+
+        this.setState ({
+          events: eventsArray
+        });
+
+      });
+
     }
     handleChange(e) {
       this.setState({
@@ -37,7 +55,7 @@ class App extends React.Component {
     }
     showSidebar(s) {
       s.preventDefault();
-      console.log("hey");
+   
     }
     addEvent(e) {
       e.preventDefault();
@@ -53,17 +71,24 @@ class App extends React.Component {
       console.log(newEvent);
 
       this.setState({
-        events: newEvent
+        events: newEvent,
+        event: '',
+        beer: ''
       })    
+
+      const dbRef = firebase.database().ref();
+      dbRef.push(newEvent);
     }
     addBeer() {
       console.log('works');
     }
     removeBeer() {
-      console.log('works');
+      console.log('removing');
     }
-    closeEvent() {
-      console.log('works');
+    closeEvent(leave) {
+      console.log(leave);
+      const dbRef = firebase.database().ref(leave);
+      dbRef.remove();
     }
     render() {
       return (
@@ -74,6 +99,7 @@ class App extends React.Component {
                 <h3>Keep track of your cold ones</h3>
                 <nav>
                 <button href="#" onClick={this.showSidebar}>Add Event!</button>
+                <button>Login</button>
                 </nav>
             </div>
           </header>
@@ -88,7 +114,7 @@ class App extends React.Component {
                   <input type="text" value={this.state.event} id="event" onChange={this.handleChange} />
                   <label htmlFor="beer">How many beers are available?</label>
                   <input type="text" value={this.state.beer} id="beer" onChange={this.handleChange} />
-                  <input type="submit" value="submit" class="submit"/>
+                  <input type="submit" value="submit" className="submit"/>
                 </form>
               </aside>
               <section className="eventNotes">

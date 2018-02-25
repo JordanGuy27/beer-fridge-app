@@ -9,7 +9,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 
 //HEADER
 header {
-    background-image: url(../../assets/hero.jpg);
+    background-image: linear-gradient(to left, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(../../assets/hero.jpg);
     height: 100vh;
     background-size: cover;
 }
@@ -22,7 +22,7 @@ h1 {
 }
 
 h3 {
-    font-family: 'bira PERSONAL USE ONLY';
+    font-family: 'arial';
     color: rgb(255, 174, 0);
 }
 
