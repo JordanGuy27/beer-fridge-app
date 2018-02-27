@@ -36,6 +36,7 @@ h3 {
     justify-content: space-between;
     align-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .headerTrue, .headerFalse {
@@ -43,7 +44,6 @@ h3 {
     flex-direction: column;
     width: 100%;
     text-align: center;
-    align-self: center;
     margin-top: 280px;
 }
 
@@ -115,7 +115,7 @@ input {
 }
 
 .eventNotes {
-    margin: 10px;
+    margin: 10px 0;
     padding: 15px;
     border: 1px solid #eee;
     box-shadow: 3px 3px 10px rgb(66, 66, 66);
@@ -127,5 +127,50 @@ input {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 30px;
+    justify-content: space-around;
+}
+
+// MEDIA QUERIES
+
+@media (max-width: 1045px) {
+    .eventForm{
+        flex-direction: column;
+    }
+    input {
+        margin: 5px;
+    }
+    .submit {
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 955px) {
+    .eventNotes {
+        width: 46%;
+    }
+    .eventNotesContainer {
+        justify-content: space-around;
+    }
+}
+
+@media (max-width: 606px) {
+    button, a, .submit {
+        padding: 10px 8px;
+        font-size: 12px;
+        margin: 10px 0;
+    }
+    h1 {
+        font-size: 30px;
+    }
+    h3 {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 550px) {
+    .eventNotesContainer {
+        flex-direction: column;
+        align-content: center;
+    }
 }
 
