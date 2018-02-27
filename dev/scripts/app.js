@@ -2,6 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Event from './eventPost'
 
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyDshEk755XVbpEE7Lkw_a7sbAQQzXT2RBs",
+  authDomain: "beer-fridge-app.firebaseapp.com",
+  databaseURL: "https://beer-fridge-app.firebaseio.com",
+  projectId: "beer-fridge-app",
+  storageBucket: "",
+  messagingSenderId: "488699414285"
+};
+firebase.initializeApp(config);
 
 class App extends React.Component {
     constructor() {
@@ -9,26 +19,21 @@ class App extends React.Component {
       this.state = {
         event: '',
         beer: '',
-        events: []
+        events: [],
+        loggedIn: false,
+        user: {},
+        userText: ''
       }
       this.addEvent = this.addEvent.bind(this);
       this.handleChange = this.handleChange.bind(this);
-      this.showSidebar = this.showSidebar.bind(this);
+      // this.showSidebar = this.showSidebar.bind(this);
       this.addBeer = this.addBeer.bind(this);
       this.removeBeer = this.removeBeer.bind(this);
       this.closeEvent = this.closeEvent.bind(this);
+      this.signIn = this.signIn.bind(this);
+      this.signOut = this.signOut.bind(this);
     }
     componentDidMount() {
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyDshEk755XVbpEE7Lkw_a7sbAQQzXT2RBs",
-        authDomain: "beer-fridge-app.firebaseapp.com",
-        databaseURL: "https://beer-fridge-app.firebaseio.com",
-        projectId: "beer-fridge-app",
-        storageBucket: "",
-        messagingSenderId: "488699414285"
-      };
-      firebase.initializeApp(config);
       
       const dbRef = firebase.database().ref();
 
@@ -47,15 +52,41 @@ class App extends React.Component {
 
       });
 
+      firebase.auth().onAuthStateChanged((res) => {
+        if(res) {
+          this.setState({
+            loggedIn: true,
+            user: res
+          })
+        } else {
+          this.setState({
+            loggedIn: false,
+            user: {}
+          })
+        }
+      });
+
+    }
+    signIn() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+
+      provider.setCustomParameters({
+        prompt: 'select_account'
+      })
+
+      firebase.auth().signInWithPopup(provider)
+        .then((user) => {
+          console.log(user)
+        })
+    }
+    signOut() {
+      console.log('woo');
+      firebase.auth().signOut();
     }
     handleChange(e) {
       this.setState({
         [e.target.id]: e.target.value
       });
-    }
-    showSidebar(s) {
-      s.preventDefault();
-   
     }
     addEvent(e) {
       e.preventDefault();
@@ -77,13 +108,29 @@ class App extends React.Component {
       })    
 
       const dbRef = firebase.database().ref();
-      dbRef.push(newEvent);
+      dbRef.push(event);
     }
-    addBeer() {
-      console.log('works');
+    addBeer(event) {
+      const beerEvent = Object.assign({},event);
+
+      beerEvent.beer  = Number(beerEvent.beer) + 1;
+      
+      const dbref = firebase.database().ref(beerEvent.key);
+
+      delete beerEvent.key;
+
+      dbref.set(beerEvent);
     }
-    removeBeer() {
-      console.log('removing');
+    removeBeer(event) {
+      const beerEvent = Object.assign({}, event);
+
+      beerEvent.beer = Number(beerEvent.beer) - 1;
+
+      const dbref = firebase.database().ref(beerEvent.key);
+
+      delete beerEvent.key;
+
+      dbref.set(beerEvent);
     }
     closeEvent(leave) {
       console.log(leave);
@@ -94,37 +141,46 @@ class App extends React.Component {
       return (
         <div>
           <header>
-            <div className="wrapper">
-                <h1>Beer Tracker</h1>
-                <h3>Keep track of your cold ones</h3>
-                <nav>
-                <button href="#" onClick={this.showSidebar}>Add Event!</button>
-                <button>Login</button>
-                </nav>
-            </div>
+              <div className="wrapper">
+                    <div className="headerContainer">
+                    {this.state.loggedIn ?
+                        <div className="headerTrue">
+                          <h1>Welcome, {this.state.user.displayName}</h1>
+                          <h3>You're ready to send it</h3>
+                          <button onClick={this.signOut} className="upper ">Sign Out</button>
+                          <a href="#sidebar" className="upper">Add Event</a> 
+                        </div>
+                          :
+                        <div className="headerFalse">       
+                          <h1>Cerveza P.I.</h1>
+                          <h3>Tracking your cold ones since today</h3>
+                          <button onClick={this.signIn} className="upper">Sign In</button>
+                        </div>
+                      }
+                    </div>
+              </div>
           </header>
-            <div className="wrapper">
-              <aside className="sidebar">
-                <form onSubmit={this.addEvent} className="eventForm">
-                  <h3>Add New Event</h3>
-                  <div className="exitBtn">
-                    {/* input an image for closing window */}
-                  </div>
-                  <label htmlFor="event" >Enter Event:</label>
-                  <input type="text" value={this.state.event} id="event" onChange={this.handleChange} />
-                  <label htmlFor="beer">How many beers are available?</label>
-                  <input type="text" value={this.state.beer} id="beer" onChange={this.handleChange} />
-                  <input type="submit" value="submit" className="submit"/>
-                </form>
-              </aside>
-              <section className="eventNotes">
+          <div className="wrapper">
+            <aside id="sidebar">
+              <form onSubmit={this.addEvent} className="eventForm">
+                <h3>Add New Event</h3>
+                <label htmlFor="event" >Enter Event:</label>
+                <input type="text" value={this.state.event} id="event" onChange={this.handleChange} />
+                <label htmlFor="beer">How many beers are available?</label>
+                <input type="text" value={this.state.beer} id="beer" onChange={this.handleChange} />
+                <input type="submit" value="Submit" className="submit"/>
+              </form>
+            </aside>
+            <section>
+             <div className="eventNotesContainer">
                 {this.state.events.map((event, i) => {
                   return (
                     <Event data={event} key={i} removeBeer = {this.removeBeer}
                     closeEvent={this.closeEvent} addBeer={this.addBeer}/>
                   )
                 })}
-              </section>
+             </div>
+            </section>
           </div>
         </div>
       )

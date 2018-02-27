@@ -7,9 +7,11 @@ const Event = (props) => {
             <p>
                 There are currently {props.data.beer} beers left at this event
             </p>
-            <button className="addBeer" onClick={props.addBeer}>Add Beer</button>
-            <button className="drinkBeer" onClick={props.removeBeer}>Drink Beer</button>
-            <button className="leaveEvent" onClick={() => props.closeEvent(props.data.key)}>Leave Event</button>
+            <div className="buttonContainer">
+                <button className="drinkBeer" onClick={() => props.removeBeer(props.data)}>Drink Beer</button>
+                <button className="addBeer" onClick={() => props.addBeer(props.data)}>Add Beer</button>
+                <button className="leaveEvent" onClick={() => props.closeEvent(props.data.key)}>Leave Event</button>
+            </div>
         </div>
     )
 }

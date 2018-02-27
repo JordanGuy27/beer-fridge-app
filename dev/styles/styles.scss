@@ -9,7 +9,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 
 //HEADER
 header {
-    background-image: linear-gradient(to left, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(../../assets/hero.jpg);
+    background-image: linear-gradient(to left, rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url(../../assets/hero2.jpg);
     height: 100vh;
     background-size: cover;
 }
@@ -17,44 +17,115 @@ header {
 h1 {
     font-family: 'bira PERSONAL USE ONLY';
     font-size: 40px;
-    margin-top: 0;
+    margin-top: 20px;
+    margin-bottom: 0;
     color: rgb(255, 174, 0);
+    // text-shadow: 3px 3px 5px black;
 }
 
 h3 {
-    font-family: 'arial';
+    font-family: 'bira PERSONAL USE ONLY';
     color: rgb(255, 174, 0);
+    margin-right: 20px;
+    font-size: 30px;
+    // text-shadow: 3px 3px 5px black;
+}
+
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+}
+
+.headerTrue, .headerFalse {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    align-self: center;
+    margin-top: 280px;
 }
 
 //BUTTONS
-button, .submit {
+button, input[submit], a {
     color: #fff;
     background-color: rgb(255, 174, 0);
     border-style: none;
     padding: 13px 30px;
     text-align: center;
     border-radius: 3px;
+    margin: 5px;
+    width: 30%;
+    align-self: center;
+    transition: all 0.5s ease-in;
+    text-decoration: none;
     &:hover {
         background-color: rgb(143, 98, 0);
     }
 }
 
-//SIDEBAR 
+.upper {
+    text-transform: uppercase;
+}
 
-// aside {
-//     width: 25%;
-// }
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    button {
+        width: 60%;
+    }
 
-// .sidebar {
-//     position: relative;
-//     overflow: hidden;
-// }
+}
 
-// .eventForm {
-//     display: flex;
-//     flex-direction: column;
-//     position: absolute;
-//     right: -400px;
-//     overflow: hidden;
-//     transition: 1s all ease-in;
-// }
+.submit {
+    color: #fff;
+    background-color: rgb(255, 174, 0);
+    border-style: none;
+    padding: 13px 30px;
+    text-align: center;
+    border-radius: 3px;
+    margin: 5px;
+    align-self: center;
+    transition: all 0.5s ease-in;
+    &:hover {
+        background-color: rgb(143, 98, 0);
+    }
+}
+
+input {
+    margin: 50px 5px;
+}
+
+.leaveEvent {
+    padding: 5px 7px;
+    font-size: 12px;
+}
+
+//EVENT NOTES
+
+.eventForm {
+    display: flex;
+    flex-direction: row;
+    transition: 1s all ease-in;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.eventNotes {
+    margin: 10px;
+    padding: 15px;
+    border: 1px solid #eee;
+    box-shadow: 3px 3px 10px rgb(66, 66, 66);
+    width: 31%;
+}
+
+
+.eventNotesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
