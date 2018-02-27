@@ -146,14 +146,14 @@ class App extends React.Component {
                     {this.state.loggedIn ?
                         <div className="headerTrue">
                           <h1>Welcome, {this.state.user.displayName}</h1>
-                          <h3>You're ready to send it</h3>
+                          <h3>You're ready to console.log some beers</h3>
                           <button onClick={this.signOut} className="upper ">Sign Out</button>
                           <a href="#sidebar" className="upper">Add Event</a> 
                         </div>
                           :
                         <div className="headerFalse">       
                           <h1>Cerveza P.I.</h1>
-                          <h3>Tracking your cold ones since today</h3>
+                          <h3>Tracking your cold ones since 2018</h3>
                           <button onClick={this.signIn} className="upper">Sign In</button>
                         </div>
                       }
