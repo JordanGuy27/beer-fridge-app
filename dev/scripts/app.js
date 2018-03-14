@@ -26,12 +26,12 @@ class App extends React.Component {
       }
       this.addEvent = this.addEvent.bind(this);
       this.handleChange = this.handleChange.bind(this);
-      // this.showSidebar = this.showSidebar.bind(this);
       this.addBeer = this.addBeer.bind(this);
       this.removeBeer = this.removeBeer.bind(this);
       this.closeEvent = this.closeEvent.bind(this);
       this.signIn = this.signIn.bind(this);
       this.signOut = this.signOut.bind(this);
+      this.scroll = this.scroll.bind(this);
     }
     componentDidMount() {
       
@@ -40,7 +40,6 @@ class App extends React.Component {
       dbRef.on('value', (snapshot) => {
         const eventsData = snapshot.val();
         const eventsArray = [];
-
         for( let event in eventsData) {
           eventsData[event].key = event;
           eventsArray.push(eventsData[event]);
@@ -64,8 +63,9 @@ class App extends React.Component {
             user: {}
           })
         }
+        ReactDOM.findDOMNode(this).scrollIntoView();
       });
-
+      
     }
     signIn() {
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -95,26 +95,38 @@ class App extends React.Component {
         beer: this.state.beer
       }
 
-      const newEvent = Array.from(this.state.events);
-      
-      newEvent.push(event);
-
-      console.log(newEvent);
-
-      this.setState({
-        events: newEvent,
-        event: '',
-        beer: ''
-      })    
-
-      const dbRef = firebase.database().ref();
-      dbRef.push(event);
+      if (this.state.event === '' || this.state.beer === '') {
+        alert('Please enter an event AND amount of beer')
+      } else {
+        const newEvent = Array.from(this.state.events);
+        
+        newEvent.push(event);
+  
+        console.log(newEvent);
+  
+        this.setState({
+          events: newEvent,
+          event: '',
+          beer: ''
+        })    
+  
+        const dbRef = firebase.database().ref();
+        dbRef.push(event); 
+      }
+      $('html').animate({
+        scrollTop: $('.eventNotesContainer').offset().top
+      });
+    }
+    scroll(e) {
+      e.preventDefault();
+      document.querySelector('.addEvent').scrollIntoView({
+        behavior: 'smooth'
+      });
     }
     addBeer(event) {
       const beerEvent = Object.assign({},event);
 
       beerEvent.beer  = Number(beerEvent.beer) + 1;
-      
       const dbref = firebase.database().ref(beerEvent.key);
 
       delete beerEvent.key;
@@ -148,7 +160,7 @@ class App extends React.Component {
                           <h1>Welcome, {this.state.user.displayName}</h1>
                           <h3>You're ready to console.log some beers</h3>
                           <button onClick={this.signOut} className="upper ">Sign Out</button>
-                          <a href="#sidebar" className="upper">Add Event</a> 
+                          <button className="upper" onClick={this.scroll}>Add Event</button> 
                         </div>
                           :
                         <div className="headerFalse">       
@@ -161,9 +173,11 @@ class App extends React.Component {
               </div>
           </header>
           <div className="wrapper">
-            <aside id="sidebar">
+            <aside className="sidebar">
+              <div>
+                <h3 className="addEvent">Add New Event</h3>
+              </div>
               <form onSubmit={this.addEvent} className="eventForm">
-                <h3>Add New Event</h3>
                 <label htmlFor="event" >Enter Event:</label>
                 <input type="text" value={this.state.event} id="event" onChange={this.handleChange} />
                 <label htmlFor="beer">How many beers are available?</label>

@@ -5,6 +5,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 .wrapper {
     max-width: 1080px;
     margin: 0 auto;
+    position: relative;
 }
 
 //HEADER
@@ -19,24 +20,20 @@ h1 {
     font-size: 40px;
     margin-top: 20px;
     margin-bottom: 0;
+    letter-spacing: 2px;
     color: rgb(255, 174, 0);
-    // text-shadow: 3px 3px 5px black;
 }
 
 h3 {
     font-family: 'bira PERSONAL USE ONLY';
     color: rgb(255, 174, 0);
-    margin-right: 20px;
     font-size: 30px;
-    // text-shadow: 3px 3px 5px black;
+    letter-spacing: 2px;
 }
 
 .headerContainer {
     display: flex;
-    justify-content: space-between;
-    align-content: center;
-    align-items: center;
-    width: 100%;
+    height: 100vh;
 }
 
 .headerTrue, .headerFalse {
@@ -44,12 +41,12 @@ h3 {
     flex-direction: column;
     width: 100%;
     text-align: center;
-    margin-top: 280px;
+    justify-content: center;
 }
 
 //BUTTONS
 button, input[submit], a {
-    color: #fff;
+    color: black;
     background-color: rgb(255, 174, 0);
     border-style: none;
     padding: 13px 30px;
@@ -61,7 +58,8 @@ button, input[submit], a {
     transition: all 0.5s ease-in;
     text-decoration: none;
     &:hover {
-        background-color: rgb(143, 98, 0);
+        background-color: black;
+        color: rgb(255, 174, 0);
     }
 }
 
@@ -81,21 +79,23 @@ button, input[submit], a {
 
 .submit {
     color: #fff;
-    background-color: rgb(255, 174, 0);
+    background-color: black;
     border-style: none;
-    padding: 13px 30px;
+    padding: 10px 30px;
     text-align: center;
     border-radius: 3px;
     margin: 5px;
+    
     align-self: center;
     transition: all 0.5s ease-in;
     &:hover {
-        background-color: rgb(143, 98, 0);
+        color: rgb(255, 174, 0);
     }
 }
 
 input {
-    margin: 50px 5px;
+    margin: 5px;
+    background-color: rgb(255, 174, 0);
 }
 
 .leaveEvent {
@@ -111,7 +111,6 @@ input {
     transition: 1s all ease-in;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
 }
 
 .eventNotes {
@@ -120,6 +119,29 @@ input {
     border: 1px solid #eee;
     box-shadow: 3px 3px 10px rgb(66, 66, 66);
     width: 31%;
+}
+
+.sidebar {
+    margin-bottom: 20px;
+    h3{
+        font-size: 40px;
+        letter-spacing: 5px;
+        text-align: center;
+        color: black;
+        margin-bottom: 25px;
+        width: 100%;
+    }
+    label {
+        // width: 20%;
+        text-align: center;
+    }
+    input #beer, input #event {
+        width: 30%;
+        border-style: none;
+    }
+    #beer, #event {
+        border-style: none;
+    }
 }
 
 
@@ -133,12 +155,6 @@ input {
 // MEDIA QUERIES
 
 @media (max-width: 1045px) {
-    .eventForm{
-        flex-direction: column;
-    }
-    input {
-        margin: 5px;
-    }
     .submit {
         margin: 10px 0;
     }
@@ -153,6 +169,21 @@ input {
     }
 }
 
+@media (max-width: 731px) {
+    .eventForm{
+        flex-direction: column;
+    }
+    .submit {
+        width: 30%;
+    }
+    .sidebar #beer {
+        width: 20%;
+    }
+    input {
+        margin: 20px;
+    }
+}
+
 @media (max-width: 606px) {
     button, a, .submit {
         padding: 10px 8px;
@@ -161,9 +192,11 @@ input {
     }
     h1 {
         font-size: 30px;
+        letter-spacing: 2px;
     }
     h3 {
         font-size: 22px;
+        letter-spacing: 2px;
     }
 }
 
